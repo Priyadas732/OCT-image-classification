@@ -1,0 +1,93 @@
+@startuml
+class StreamlitApp {
+    - MODEL_PATH : str
+    - NUM_CLASSES : int
+    - dic : dict
+    - transform : transforms.Compose
+    + load_model() : nn.Module
+}
+
+class ResNet18 {
+}
+
+class nn_Module {
+}
+
+class Image {
+}
+
+class transforms_Compose {
+}
+
+class transforms_Resize {
+}
+
+class transforms_ToTensor {
+}
+
+class transforms_Normalize {
+}
+
+class Dictionary {
+    - {static} dic : {0:"CNV",1:"DME",2:"DRUSEN",3:"NORMAL"}
+}
+
+StreamlitApp --|> ResNet18 : uses
+ResNet18 --|> nn_Module : extends
+StreamlitApp --|> Image : uses
+StreamlitApp --|> transforms_Compose : uses
+
+transforms_Compose --* transforms_Resize : contains
+transforms_Compose --* transforms_ToTensor : contains
+transforms_Compose --* transforms_Normalize : contains
+
+StreamlitApp .. Dictionary : uses
+
+note top of StreamlitApp
+**Streamlit Application**
+- Loads ResNet18 model
+- Preprocesses uploaded image
+- Predicts class using the model
+- Displays prediction in UI
+end note
+
+note top of ResNet18
+**ResNet18 Model**
+- Pre-trained ResNet18 from torchvision
+- Modified fully connected layer for NUM_CLASSES
+- Used for image classification
+end note
+
+note top of Image
+**PIL Image**
+- Handles image loading
+- Used for opening uploaded file
+end note
+
+note top of transforms_Compose
+**transforms.Compose**
+- Composes image transformations
+end note
+
+note top of transforms_Resize
+**transforms.Resize**
+- Resizes image to 224x224
+end note
+
+note top of transforms_ToTensor
+**transforms.ToTensor**
+- Converts PIL Image to Tensor
+end note
+
+note top of transforms_Normalize
+**transforms.Normalize**
+- Normalizes Tensor image
+end note
+
+note top of Dictionary
+**Dictionary (dic)**
+- Maps class index to class name
+- Used for displaying predicted class name
+end note
+
+@enduml
